@@ -1,0 +1,32 @@
+{
+    "name": "frdl/php-templater",
+    "license": "MIT",
+    "description": "Template Replacers (`Angular-style`)",
+ 
+    "require": {
+        "php": ">=7.2.0",
+        "frdl/context" : "^0.0.1"
+    },
+
+    "config": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "frdl\\Templater\\": "src/frdl/Templater/"
+        }
+    },
+
+    "replace": {
+    
+    },
+    "scripts": {
+     
+    },
+    "conflict": {
+        
+    },
+    "extra": {
+   
+    }
+}
