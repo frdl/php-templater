@@ -1,5 +1,6 @@
 # php-templater
 This package can process and render templates similar to AngularJS.
+
 Templates {{my.var}}  for ['my'=>['var'=>'Hello, World']]
 
 
@@ -33,15 +34,21 @@ $arr = [
 
 
 echo \frdl\Templater\AdvancedReplacer::replace(\frdl\Context::create($arr),   
-  '<div><p>Message: {{test.message}}</p><p ng-show="show">this should be hidden</p><p ng-show="!show">this should be visible</p><p><a v-for="item in items">{{item.property|uppercase}}</a></p></div>');
+  '<div>
+     <p>Message: {{test.message}}</p>
+     <p ng-show="show">this should be hidden</p>
+     <p ng-show="!show">this should be visible</p>
+     <p><a v-for="item in items">{{item.property|ucfirst}}</a></p>
+    </div>');
   
 /*
 //Renders to:  
-<div>
-<p>Message: Hello, World</p>
-<p>this should be visible</p>
-<p><a>VALUE1</a><a>VALUE2</a></p>
-</div>
+  <div>
+     <p>Message: Hello, World</p>
+     
+     <p>this should be visible</p>
+     <p><a>Value1</a><a>Value2</a></p>
+  </div>
 
 */
 ````
