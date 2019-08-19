@@ -24,6 +24,7 @@ use WMDE\VueJsTemplating\JsParsing\JsExpressionParser;
 class Component extends \WMDE\VueJsTemplating\Component
 {
 	
+	
 	/**
 	 * @param DOMNode $node
 	 * @param array $data
@@ -37,6 +38,7 @@ class Component extends \WMDE\VueJsTemplating\Component
 			$this->handleRawHtml( $node, $data );
 			if ( !$this->isRemovedFromTheDom( $node ) ) {
 				$this->handleAttributeBinding( $node, $data );
+				$this->handleNgIf( $node->childNodes, $data );
 				$this->handleNgShow( $node->childNodes, $data );
 				$this->handleIf( $node->childNodes, $data );
 				foreach ( iterator_to_array( $node->childNodes ) as $childNode ) {
@@ -45,6 +47,29 @@ class Component extends \WMDE\VueJsTemplating\Component
 			}
 		}
 	}
+	private function handleNgIf( DOMNodeList $nodes, array $data ) {
+		// Iteration of iterator breaks if we try to remove items while iterating, so defer node
+		// removing until finished iterating.
+		$nodesToRemove = [];
+		foreach ( $nodes as $node ) {
+			if ( $this->isTextNode( $node ) ) {
+				continue;
+			}
+			/** @var DOMElement $node */
+			if ( $node->hasAttribute( 'ng-if' ) ) {
+				$conditionString = $node->getAttribute( 'ng-if' );
+				$node->removeAttribute( 'ng-if' );
+				$condition = $this->evaluateExpression( $conditionString, $data );
+				if ( !$condition ) {
+					$nodesToRemove[] = $node;
+				}
+				$previousIfCondition = $condition;
+			} 
+		}
+		foreach ( $nodesToRemove as $node ) {
+			$this->removeNode( $node );
+		}
+	}	
 	
 	private function handleNgRepeat( DOMNode $node, array $data ) {
 		if ( $this->isTextNode( $node ) ) {
