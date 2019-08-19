@@ -43,7 +43,7 @@ echo \frdl\Templater\AdvancedReplacer::replace(\frdl\Context::create($arr),
      <p>Message: {{test.message}}</p>
      <p ng-show="show">this should be hidden</p>
      <p ng-show="!show">this should be visible</p>
-     <p><a v-for="item in items">{{item.property|ucfirst}}</a></p>
+     <p><a ng-repeat="item in items">{{item.property|ucfirst}}</a></p>
     </div>');
   
 /*
