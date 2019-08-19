@@ -17,7 +17,7 @@ class AdvancedReplacer extends Replacer
 	      'ucfirst' => 'ucfirst',
 	      'json' => 'json_encode',
 	      'json_encode' => 'json_encode',
-	   
+		   
 	   ];	
 		
 		$this->templating = new Templating();
@@ -31,8 +31,13 @@ class AdvancedReplacer extends Replacer
 		return $this->filters;
 	}
 		
+	public function setFilter($name, $filter){
+		$this->filters[$name]=$filter;	
+		return $this;
+	}		
 	public function setFilters(array $filters){
-		$this->filters = $filters;	
+		$this->filters = $filters;		
+		return $this;
 	}
 	
     public function replace(Context $context, string $template) : string {
