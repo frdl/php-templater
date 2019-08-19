@@ -1,4 +1,5 @@
 # php-templater
+This package can process and render templates similar to AngularJS.
 Templates {{my.var}}  for ['my'=>['var'=>'Hello, World']]
 
 
