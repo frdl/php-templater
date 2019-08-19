@@ -1,11 +1,8 @@
 <?php
-
 /*
 * https://github.com/wmde/php-vuejs-templating/blob/master/src/Component.php
 */
 namespace frdl\Templater;
-
-
 use DOMAttr;
 use DOMCharacterData;
 use DOMDocument;
@@ -19,8 +16,6 @@ use WMDE\VueJsTemplating\FilterExpressionParsing\FilterParser;
 use WMDE\VueJsTemplating\JsParsing\BasicJsExpressionParser;
 use WMDE\VueJsTemplating\JsParsing\CachingExpressionParser;
 use WMDE\VueJsTemplating\JsParsing\JsExpressionParser;
-
-
 class Component extends \WMDE\VueJsTemplating\Component
 {
 	
@@ -36,6 +31,8 @@ class Component extends \WMDE\VueJsTemplating\Component
 		        $this->handleNgRepeat( $node, $data );
 			$this->handleFor( $node, $data );
 			$this->handleRawHtml( $node, $data );
+			$this->handleNgBindHtml( $node, $data );
+			$this->handleNgBind( $node, $data );
 			if ( !$this->isRemovedFromTheDom( $node ) ) {
 				$this->handleAttributeBinding( $node, $data );
 				$this->handleNgIf( $node->childNodes, $data );
@@ -47,6 +44,36 @@ class Component extends \WMDE\VueJsTemplating\Component
 			}
 		}
 	}
+	
+	private function handleNgBindHtml( DOMNode $node, array $data ) {
+		if ( $this->isTextNode( $node ) ) {
+			return;
+		}
+		/** @var DOMElement $node */
+		if ( $node->hasAttribute( 'ng-bind-html' ) ) {
+			$variableName = $node->getAttribute( 'ng-bind-html' );
+			$node->removeAttribute( 'ng-bind-html' );
+			$newNode = $node->cloneNode( true );
+			$this->appendHTML( $newNode, $data[$variableName] );
+			$node->parentNode->replaceChild( $newNode, $node );
+		}
+	}
+	
+	private function handleNgBind( DOMNode $node, array $data ) {
+		if ( $this->isTextNode( $node ) ) {
+			return;
+		}
+		/** @var DOMElement $node */
+		if ( $node->hasAttribute( 'ng-bind' ) ) {
+			$variableName = $node->getAttribute( 'ng-bind' );
+			$node->removeAttribute( 'ng-bind' );
+			$newNode = $node->cloneNode( true );
+			$this->appendHTML( $newNode, strip_tags($data[$variableName]) );
+			$node->parentNode->replaceChild( $newNode, $node );
+		}
+	}	
+	
+	
 	private function handleNgIf( DOMNodeList $nodes, array $data ) {
 		// Iteration of iterator breaks if we try to remove items while iterating, so defer node
 		// removing until finished iterating.
@@ -246,6 +273,7 @@ class Component extends \WMDE\VueJsTemplating\Component
 			}
 		}
 	}
+	
 	private function handleAttributeBinding( DOMElement $node, array $data ) {
 		/** @var DOMAttr $attribute */
 		foreach ( iterator_to_array( $node->attributes ) as $attribute ) {
@@ -315,7 +343,5 @@ class Component extends \WMDE\VueJsTemplating\Component
 		$this->handleNode( $rootNode, $data );
 		return $document->saveHTML( $rootNode );
 	}
-
 	
-
 }
