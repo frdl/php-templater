@@ -33,7 +33,7 @@ class Component extends \WMDE\VueJsTemplating\Component
 		$this->replaceMustacheVariables( $node, $data );
 		if ( !$this->isTextNode( $node ) ) {
 			$this->stripEventHandlers( $node );
-		    $this->handleNgRepeat( $node, $data );
+		        $this->handleNgRepeat( $node, $data );
 			$this->handleFor( $node, $data );
 			$this->handleRawHtml( $node, $data );
 			if ( !$this->isRemovedFromTheDom( $node ) ) {
