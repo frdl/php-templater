@@ -3,6 +3,10 @@ This package can process and render templates similar to AngularJS.
 
 Templates {{my.var}}  for ['my'=>['var'=>'Hello, World']]
 
+# Examples
+
+## frdl\Templater\SimpleDotNotationReplacer
+Based on regular expression.
 
 ````php
 $arr = [
@@ -18,7 +22,8 @@ echo \frdl\Templater\SimpleDotNotationReplacer::replace(\frdl\Context::create($a
     //Message: Hello, World
 ````
 
-
+## frdl\Templater\AdvancedReplacer
+Based on https://github.com/wmde/php-vuejs-templating .
 
 ````php
 $arr = [
