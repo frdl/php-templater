@@ -17,7 +17,6 @@ class AdvancedReplacer extends Replacer
 	      'ucfirst' => 'ucfirst',
 	      'json' => 'json_encode',
 	      'json_encode' => 'json_encode',
-	      'json_decode' => 'json_decode'
 	   
 	   ];	
 		
