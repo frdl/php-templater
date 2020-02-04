@@ -5,7 +5,7 @@
  
     "require": {
         "php": ">=7.2.0",
-        "frdl/context" : "^0.0.2",
+        "frdl/context" : ">=0.0.4",
         "wmde/php-vuejs-templating": "^1.0.1"
     },
 
