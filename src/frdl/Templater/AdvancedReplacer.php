@@ -43,7 +43,7 @@ class AdvancedReplacer extends Replacer
     public function replace(Context $context, string $template) : string {
 		$self = new self;
 		return $context(function($ArrayObject) use($self, $template){
-		     return $self->getTemplating()->render( $template, $ArrayObject->all(), $self->getFilters() );					
+		     return $self->getTemplating()->render( $template, $ArrayObject->resolve()->all(), $self->getFilters() );					
 		});
 
 	}
